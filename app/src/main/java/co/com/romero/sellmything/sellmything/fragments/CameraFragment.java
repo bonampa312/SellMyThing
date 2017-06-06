@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import co.com.romero.sellmything.sellmything.MyConstants;
@@ -59,6 +60,9 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
     // Image view for showing our image.
     private ImageView mImageView;
+    private Button takePictureButton;
+    private Button takePictureAgainButton;
+    private LinearLayout pictureTakenLinearLayout;
 
     /**
      * Default empty constructor.
@@ -91,9 +95,12 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
         // Set the image view
         mImageView = (ImageView)view.findViewById(R.id.imageViewFullSized);
-        Button takePictureButton = (Button)view.findViewById(R.id.btn_take_photo);
-
+        takePictureButton = (Button)view.findViewById(R.id.btn_take_photo);
+        takePictureAgainButton = (Button)view.findViewById(R.id.btn_take_photo_again);
+        pictureTakenLinearLayout = (LinearLayout) view.findViewById(R.id.linlay_btns_photo_taken);
+        takePictureButton.setVisibility(View.VISIBLE);
         // Set OnItemClickListener so we can be notified on button clicks
+        takePictureAgainButton.setOnClickListener(this);
         takePictureButton.setOnClickListener(this);
 
         return view;
@@ -206,7 +213,22 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
      */
     @Override
     public void onClick(View v) {
-        dispatchTakePictureIntent();
+        switch(v.getId()){
+            case(R.id.btn_take_photo):
+                takePictureButton.setVisibility(View.INVISIBLE);
+                pictureTakenLinearLayout.setVisibility(View.VISIBLE);
+                dispatchTakePictureIntent();
+                break;
+            case(R.id.btn_take_photo_again):
+                CameraActivity activity = (CameraActivity)getActivity();
+                if(!deletePhoto(activity.getCurrentPhotoPath())){
+                    Toast.makeText(getActivity(), "Photo deleted", Toast.LENGTH_SHORT).show();
+                }
+                dispatchTakePictureIntent();
+                break;
+
+        }
+
     }
 
     /**
@@ -237,5 +259,12 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
         imageView.setImageBitmap(bitmap);
+    }
+
+
+    private boolean deletePhoto(String filepath){
+        File file = new File(filepath);
+        boolean deleted = file.delete();
+        return deleted;
     }
 }
