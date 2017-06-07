@@ -1,9 +1,11 @@
 package co.com.romero.sellmything.sellmything.utilities.rest;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.File;
 import java.util.List;
+import java.util.Date;
 
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
@@ -31,10 +33,28 @@ public class VisualRecognitionManager {
         return instance;
     }
 
-    public void recognizeImage(final String imageUrl){
+    public void recognizeImage(final String imageUrl) {
+        ClassifyImage classifyImage = new ClassifyImage();
+        classifyImage.execute(imageUrl);
+ /*
         try {
             try {
-                /*Thread thread = new Thread(new Runnable(){
+                ClassifyImagesOptions classifyOptions = new ClassifyImagesOptions.Builder().images(new File(imageUrl)).build();
+                VisualClassification execute = vision.classify(classifyOptions).execute();
+                List<ImageClassification> imageClassifiers = execute.getImages();
+                if (!imageClassifiers.isEmpty()) {
+                    Log.d("@@@ DEBUG", "recognizeImage: SUCCESS");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("@@@ DEBUG", "recognizeImage: ERROR2",e);
+            }
+        } catch (Exception e) {
+            Log.d("@@@ DEBUG", "recognizeImage: ERROR3",e);
+        }
+    }
+
+                Thread thread = new Thread(new Runnable(){
                     public void run() {
                         try {
                             ClassifyImagesOptions classifyOptions = new ClassifyImagesOptions.Builder().images(new File(imageUrl)).build();
@@ -49,18 +69,28 @@ public class VisualRecognitionManager {
                     }
                 });
                 thread.start();*/
+    }
+
+    private class ClassifyImage extends AsyncTask<String, Integer, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            try {
+                String imageUrl = params[0];
+                Log.d("@@@ DEBUG", "recognizeImage: "+imageUrl);
                 ClassifyImagesOptions classifyOptions = new ClassifyImagesOptions.Builder().images(new File(imageUrl)).build();
                 VisualClassification execute = vision.classify(classifyOptions).execute();
                 List<ImageClassification> imageClassifiers = execute.getImages();
                 if (!imageClassifiers.isEmpty()) {
                     Log.d("@@@ DEBUG", "recognizeImage: SUCCESS");
+                    return true;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.d("@@@ DEBUG", "recognizeImage: ERROR2",e);
+                return false;
             }
-        } catch (Exception e) {
-            Log.d("@@@ DEBUG", "recognizeImage: ERROR3",e);
+            return false;
         }
     }
 }
