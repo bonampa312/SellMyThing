@@ -41,9 +41,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import co.com.romero.sellmything.sellmything.MyConstants;
+import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.R;
 import co.com.romero.sellmything.sellmything.activities.CameraActivity;
+import co.com.romero.sellmything.sellmything.utilities.rest.VisualRecognitionManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
     private ImageView mImageView;
     private Button takePictureButton;
     private Button takePictureAgainButton;
+    private Button sendPictureButton;
     private LinearLayout pictureTakenLinearLayout;
 
     /**
@@ -97,11 +99,14 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         mImageView = (ImageView)view.findViewById(R.id.imageViewFullSized);
         takePictureButton = (Button)view.findViewById(R.id.btn_take_photo);
         takePictureAgainButton = (Button)view.findViewById(R.id.btn_take_photo_again);
+        sendPictureButton = (Button)view.findViewById(R.id.btn_send_photo);
         pictureTakenLinearLayout = (LinearLayout) view.findViewById(R.id.linlay_btns_photo_taken);
         takePictureButton.setVisibility(View.VISIBLE);
+        pictureTakenLinearLayout.setVisibility(View.INVISIBLE);
         // Set OnItemClickListener so we can be notified on button clicks
         takePictureAgainButton.setOnClickListener(this);
         takePictureButton.setOnClickListener(this);
+        sendPictureButton.setOnClickListener(this);
 
         return view;
     }
@@ -213,6 +218,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
      */
     @Override
     public void onClick(View v) {
+        CameraActivity camActivity = (CameraActivity)getActivity();
         switch(v.getId()){
             case(R.id.btn_take_photo):
                 takePictureButton.setVisibility(View.INVISIBLE);
@@ -220,13 +226,15 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 dispatchTakePictureIntent();
                 break;
             case(R.id.btn_take_photo_again):
-                CameraActivity activity = (CameraActivity)getActivity();
-                if(!deletePhoto(activity.getCurrentPhotoPath())){
-                    Toast.makeText(getActivity(), "Photo deleted", Toast.LENGTH_SHORT).show();
+                if(!deletePhoto(camActivity.getCurrentPhotoPath())){
+                    Toast.makeText(this.getActivity(), "Photo deleted", Toast.LENGTH_SHORT).show();
                 }
                 dispatchTakePictureIntent();
                 break;
-
+            case(R.id.btn_send_photo):
+                camActivity = (CameraActivity)getActivity();
+                VisualRecognitionManager.getInstance().recognizeImage(camActivity.getCurrentPhotoPath());
+                break;
         }
 
     }

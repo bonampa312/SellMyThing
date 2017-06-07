@@ -1,4 +1,4 @@
-package co.com.romero.sellmything.sellmything;
+package co.com.romero.sellmything.sellmything.utilities;
 
 /**
  * Created by bonam_000 on 05/06/2017.

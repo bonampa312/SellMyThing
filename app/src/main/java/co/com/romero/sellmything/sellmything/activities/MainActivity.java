@@ -3,14 +3,12 @@ package co.com.romero.sellmything.sellmything.activities;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import co.com.romero.sellmything.sellmything.MyConstants;
+import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.R;
 import co.com.romero.sellmything.sellmything.fragments.BaseFragment;
 import co.com.romero.sellmything.sellmything.fragments.CameraFragment;
