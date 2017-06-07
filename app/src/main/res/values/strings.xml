@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">SellMyThing</string>
     <string name="action_settings">Settings</string>
+    <string name="watson_api_key">e51965d6a5c80c6e38fb84f68e69d689f1ebf161</string>
+
 </resources>

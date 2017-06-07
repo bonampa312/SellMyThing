@@ -226,7 +226,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 dispatchTakePictureIntent();
                 break;
             case(R.id.btn_take_photo_again):
-                if(!deletePhoto(camActivity.getCurrentPhotoPath())){
+                if(deletePhoto(camActivity.getCurrentPhotoPath())){
                     Toast.makeText(this.getActivity(), "Photo deleted", Toast.LENGTH_SHORT).show();
                 }
                 dispatchTakePictureIntent();
@@ -268,7 +268,6 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
         imageView.setImageBitmap(bitmap);
     }
-
 
     private boolean deletePhoto(String filepath){
         File file = new File(filepath);

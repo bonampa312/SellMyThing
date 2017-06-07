@@ -35,8 +35,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.1.0'
 
-    compile 'com.ibm.watson.developer_cloud:java-sdk:3.8.0'
-    //compile 'com.ibm.watson.developer_cloud:java-wrapper:1.1.1'
-
     testCompile 'junit:junit:4.12'
 }
