@@ -21,7 +21,7 @@ class APIClient {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://gateway-a.watsonplatform.net/visual-recognition/api")
+                .baseUrl("https://gateway-a.watsonplatform.net/visual-recognition/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

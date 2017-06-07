@@ -8,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
@@ -18,7 +19,8 @@ import retrofit2.http.Query;
 
 interface APIInterface {
 
-    @POST("/v3/classify?")
+    @Multipart
+    @POST("v3/classify?")
     Call<ClassifyPost> classifyImage(@Query("api_key") String apiKey, @Query("version") String apiVersion, @Part("image_file") RequestBody imageFile);
 
 }

@@ -47,6 +47,7 @@ import co.com.romero.sellmything.sellmything.activities.CameraActivity;
 import co.com.romero.sellmything.sellmything.utilities.rest.VisualRecognitionManager;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -163,12 +164,12 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+
             addPhotoToGallery();
             CameraActivity activity = (CameraActivity)getActivity();
 
             // Show the full sized image.
             setFullImageFromFilePath(activity.getCurrentPhotoPath(), mImageView);
-            Log.d("@@@ DEBUG", "onActivityResult: location: "+activity.getCurrentPhotoPath());
         } else {
             Toast.makeText(getActivity(), "Image Capture Failed", Toast.LENGTH_SHORT)
                     .show();
@@ -247,8 +248,8 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
      */
     private void setFullImageFromFilePath(String imagePath, ImageView imageView) {
         // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
+        int targetW = 780;
+        int targetH = 1040;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -274,4 +275,5 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         boolean deleted = file.delete();
         return deleted;
     }
+
 }
