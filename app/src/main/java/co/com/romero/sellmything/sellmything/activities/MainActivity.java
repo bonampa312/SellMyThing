@@ -2,11 +2,16 @@ package co.com.romero.sellmything.sellmything.activities;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+
+import co.com.romero.sellmything.sellmything.fragments.StartSplashFragment;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.R;
 import co.com.romero.sellmything.sellmything.fragments.BaseFragment;
@@ -20,10 +25,22 @@ public class MainActivity extends CameraActivity {
         super.onCreate(savedInstanceState);
         SellMyThing.setContext(getApplicationContext());
         setContentView(R.layout.activity_main);
-        setFragment(MyConstants.MAIN_FRAGMENT);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
         setSupportActionBar(toolbar);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setVisibility(View.VISIBLE);
+                appBarLayout.setVisibility(View.VISIBLE);
+                setFragment(MainActivityFragment.ID);
+            }
+        }, MyConstants.SPLASH_TIME);
+
+        setFragment(StartSplashFragment.ID);
+        toolbar.setVisibility(View.INVISIBLE);
+        appBarLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -41,9 +58,9 @@ public class MainActivity extends CameraActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -63,6 +80,10 @@ public class MainActivity extends CameraActivity {
             }
             case MainActivityFragment.ID: {
                 targetFragment = MainActivityFragment.newInstance();
+                break;
+            }
+            case StartSplashFragment.ID: {
+                targetFragment = StartSplashFragment.newInstance();
                 break;
             }
             default:

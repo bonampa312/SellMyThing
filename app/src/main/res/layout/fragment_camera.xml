@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginTop="50dp"
     android:layout_height="match_parent">
 
     <ImageView
@@ -10,7 +9,7 @@
         android:id="@+id/imageViewFullSized"
         android:layout_margin="30dp"
         android:layout_gravity="center_horizontal"
-        android:src="@android:drawable/star_big_on" />
+        android:src="@drawable/sell_my_thing_logo" />
 
     <Button
         android:layout_width="fill_parent"

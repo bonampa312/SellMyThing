@@ -57,7 +57,6 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case (R.id.btn_get_list):
-                ClassifyPost classifyPost = ClassifyPostManager.getInstance().getClassifyPostLocal();
                 List<ClassResult> classResultList = ClassResultManager.getInstance().getClassResultLocal();
                 RadioGroup rg = new RadioGroup(SellMyThing.getContext());
                 rg.setOrientation(RadioGroup.VERTICAL);
@@ -68,14 +67,12 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
 
                 for (int i = 0; i< classResultList.size(); i++) {
                     ClassResult classResult = classResultList.get(i);
-                    Log.d("@@@ DEBUG", "Class: " + classResult.getClase() + " Score: " + classResult.getClase());
                     radioButtons[i] = new RadioButton(SellMyThing.getContext());
-                    radioButtons[i].setText(""+classResult.getClase()+ " # Score: "+classResult.getScore());
+                    radioButtons[i].setText(classResult.getClase());
                     radioButtons[i].setTextColor(Color.BLACK);
                     rg.addView(radioButtons[i]);
                 }
                 listRelativeLayout.addView(rg);
-                Log.d("@@@ DEBUG", "onClick: SUCCESS MADAFACA  " + classifyPost);
                 break;
         }
     }
