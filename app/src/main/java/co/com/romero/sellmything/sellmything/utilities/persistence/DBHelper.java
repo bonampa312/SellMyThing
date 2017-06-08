@@ -46,15 +46,15 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     public void dropDatabase(){
         try {
-            TableUtils.dropTable(connectionSource, classifiers.class, true);
-            TableUtils.dropTable(connectionSource, ClassifyPerClassifier.class, true);
-            TableUtils.dropTable(connectionSource, ClassifyPost.class, true);
-            TableUtils.dropTable(connectionSource, ClassResult.class, true);
+            TableUtils.dropTable(getConnectionSource(), classifiers.class, true);
+            TableUtils.dropTable(getConnectionSource(), ClassifyPost.class, true);
+            TableUtils.dropTable(getConnectionSource(), ClassifyPerClassifier.class, true);
+            TableUtils.dropTable(getConnectionSource(), ClassResult.class, true);
 
-            TableUtils.createTable(connectionSource, ClassResult.class);
-            TableUtils.createTable(connectionSource, ClassifyPerClassifier.class);
-            TableUtils.createTable(connectionSource, classifiers.class);
-            TableUtils.createTable(connectionSource, ClassifyPost.class);
+            TableUtils.createTable(getConnectionSource(), ClassResult.class);
+            TableUtils.createTable(getConnectionSource(), ClassifyPerClassifier.class);
+            TableUtils.createTable(getConnectionSource(), classifiers.class);
+            TableUtils.createTable(getConnectionSource(), ClassifyPost.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

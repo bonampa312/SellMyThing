@@ -1,16 +1,15 @@
 package co.com.romero.sellmything.sellmything.utilities.rest;
 
-import android.provider.SyncStateContract;
+import android.app.Fragment;
+import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
-import java.util.List;
 
-import co.com.romero.sellmything.sellmything.R;
+import co.com.romero.sellmything.sellmything.activities.MainActivity;
+import co.com.romero.sellmything.sellmything.activities.SellMyThing;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.utilities.persistence.manager.ClassifyPostManager;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassResult;
 import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPost;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -28,7 +27,7 @@ public class VisualRecognitionManager {
     private APIInterface apiInterface;
 
     private VisualRecognitionManager() {
-        apiInterface = APIClient.getClient().create(APIInterface.class);
+        apiInterface = APIClient.getWatsonClient().create(APIInterface.class);
     }
 
     public static VisualRecognitionManager getInstance() {
@@ -46,8 +45,8 @@ public class VisualRecognitionManager {
 
             @Override
             public void onResponse(Call<ClassifyPost> call, Response<ClassifyPost> response) {
-                Log.d("@@@ DEBUG", "onResponse: SUCCESS ON CALL :D" + response);
                 ClassifyPostManager.getInstance().saveClassifyPostLocal(response.body());
+                Log.d("@@@ DEBUG", "onResponse: SUCCESS ON CALL :D" + response);
             }
 
             @Override

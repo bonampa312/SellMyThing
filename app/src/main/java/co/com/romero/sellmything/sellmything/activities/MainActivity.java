@@ -2,9 +2,8 @@ package co.com.romero.sellmything.sellmything.activities;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,15 +24,6 @@ public class MainActivity extends CameraActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                setFragment(MyConstants.CAMERA_FRAGMENT);
-            }
-        });
     }
 
     @Override
@@ -59,7 +49,7 @@ public class MainActivity extends CameraActivity {
     }
 
 
-    private void setFragment(int idFragment){
+    public void setFragment(int idFragment){
 
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
@@ -68,24 +58,31 @@ public class MainActivity extends CameraActivity {
         // Populate the fragment
         switch (idFragment) {
             case CameraFragment.ID: {
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-                fab.setVisibility(View.INVISIBLE);
                 targetFragment = CameraFragment.newInstance();
                 break;
             }
             case MainActivityFragment.ID: {
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-                fab.setVisibility(View.VISIBLE);
                 targetFragment = MainActivityFragment.newInstance();
                 break;
             }
             default:
                 break;
         }
-
         // Select the fragment.
         fragmentManager.beginTransaction()
-                .replace(R.id.container, targetFragment)
+                .replace(R.id.container, targetFragment).addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
     }
 }

@@ -239,13 +239,13 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 dispatchTakePictureIntent();
                 break;
             case (R.id.btn_send_photo):
-                camActivity = (CameraActivity) getActivity();
                 VisualRecognitionManager.getInstance().recognizeImage(camActivity.getCurrentPhotoPath());
 
                 FragmentManager fragmentManager = getFragmentManager();
                 BaseFragment targetFragment = ListClassifiersFragment.newInstance();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, targetFragment)
+                        .addToBackStack(null)
                         .commit();
                 break;
         }

@@ -13,7 +13,7 @@ class APIClient {
 
     private static Retrofit retrofit = null;
 
-    static Retrofit getClient() {
+    static Retrofit getWatsonClient() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

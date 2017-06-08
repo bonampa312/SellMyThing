@@ -2,7 +2,21 @@
     <string name="app_name">SellMyThing</string>
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="app_presentation">
+        This application is made for the technical test in Experimentality hiring interview. \n \n
+        Main usage:
+        \n \t - Take pictures from an object.
+        \n \t - Use IBM Watson Vision Classifier API to recognize the object
+        \n \t - Post the object in MercadoLibre using MercadoLibre API
+        \n \n
+        Tools included:
+        \n \t - Retrofit2.0: © Copyright 2013 Square, Inc.
+        \n \t - ORMLite: © Copyright 2010 to 2011 by Gray Watson
+        \n \t - OkHttp: © Copyright 2014 Square, Inc.
+        \n \t - MercadoLibre API: © Copyright 2016 MercadoLibre S.R.L
+        \n \t - IBM Watson API: © Copyright IBM Corporation 1994, 2017.
+        \n \n \n
+        Powered by:
+        \n \t \t Santiago Romero (a.k.a. Bonampa312)
+    </string>
 </resources>

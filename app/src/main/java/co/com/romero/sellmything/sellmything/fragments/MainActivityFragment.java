@@ -1,11 +1,13 @@
 package co.com.romero.sellmything.sellmything.fragments;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import co.com.romero.sellmything.sellmything.activities.MainActivity;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.R;
 
@@ -15,6 +17,7 @@ import co.com.romero.sellmything.sellmything.R;
 public class MainActivityFragment extends BaseFragment implements Button.OnClickListener {
 
     public static final int ID = MyConstants.MAIN_FRAGMENT;
+    private Button sellMyThingButton;
 
     public MainActivityFragment() {
     }
@@ -31,11 +34,21 @@ public class MainActivityFragment extends BaseFragment implements Button.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        sellMyThingButton = (Button) view.findViewById(R.id.btn_main_camera);
+
+        sellMyThingButton.setOnClickListener(this);
+
+        return view;
     }
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case (R.id.btn_main_camera):
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.setFragment(CameraFragment.ID);
+                break;
+        }
     }
 }
