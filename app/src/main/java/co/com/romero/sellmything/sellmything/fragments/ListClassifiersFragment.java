@@ -125,7 +125,7 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
                 new GetAsycTask().execute(new Command() {
                     @Override
                     ApiResponse executeCommand() {
-                        return Meli.post("/items", ITEM_JSON, Meli.getCurrentIdentity(SellMyThing.getContext()));
+                        return Meli.post("/items", getJson(), Meli.getCurrentIdentity(SellMyThing.getContext()));
                     }
                 });
                 break;
@@ -166,8 +166,8 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
         abstract ApiResponse executeCommand();
     }
 
-
-    private final String ITEM_JSON = "{\n" +
+private String getJson(){
+    final String ITEM_JSON = "{\n" +
             "  \"title\": \"" + classSelected + "\",\n" +
             "  \"category_id\":\"MLA3530\",\n" +
             "  \"price\":10,\n" +
@@ -183,7 +183,8 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
             "    {\"source\":\"" + MyConstants.IMAGE_FILE_PATH + "\"},\n" +
             "  ]\n" +
             "}";
-
+    return ITEM_JSON;
+}
     private static final String PUT_JSON = "{\n" +
             "  \"status\":\"paused\"\n" +
             "}";
