@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 
+import com.mercadolibre.android.sdk.Meli;
+
 import co.com.romero.sellmything.sellmything.fragments.StartSplashFragment;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.R;
@@ -41,6 +43,12 @@ public class MainActivity extends CameraActivity {
         setFragment(StartSplashFragment.ID);
         toolbar.setVisibility(View.INVISIBLE);
         appBarLayout.setVisibility(View.INVISIBLE);
+
+        // Set SDK to log events
+        Meli.setLoggingEnabled(true);
+
+        // Initialize the MercadoLibre SDK
+        Meli.initializeSDK(getApplicationContext());
     }
 
     @Override
@@ -106,4 +114,5 @@ public class MainActivity extends CameraActivity {
             super.onBackPressed();
         }
     }
+
 }

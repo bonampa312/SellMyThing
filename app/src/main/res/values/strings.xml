@@ -22,4 +22,21 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Declare the proper app identifier for this application -->
+    <string name="meli_app_id">1108047104466912</string>
+
+    <!-- Declare the Redirect URI requested by the Meli SDK -->
+    <string name="meli_redirect_uri">https://www.google.com</string>
+
+    <!-- Login Screen -->
+    <string name="user_id_text">User ID: %1$s</string>
+    <string name="access_token_text">Access Token: %1$s</string>
+    <string name="expires_in_text">Expires in: %1$s</string>
+
+    <!-- Result Screen -->
+    <string name="result_title">Result</string>
+    <string name="result_code">Code: %1$s</string>
+    <string name="result_content">Content: %1$s</string>
 </resources>

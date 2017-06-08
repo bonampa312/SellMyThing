@@ -28,20 +28,50 @@
                 android:id="@+id/rl_classes_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/rg_list_classes">
+
+                </RadioGroup>
 
             </RelativeLayout>
         </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="fill_parent"
             android:gravity="bottom|center_horizontal"
-            android:layout_height="fill_parent">
+            android:orientation="vertical">
+
             <Button
                 android:id="@+id/btn_get_list"
                 android:layout_width="wrap_content"
-                android:layout_margin="7dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="7dp"
                 android:text="Get list" />
+
+            <LinearLayout
+                android:id="@+id/ll_mercadolibre_btns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Login" />
+
+                <Button
+                    android:id="@+id/btn_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="post" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

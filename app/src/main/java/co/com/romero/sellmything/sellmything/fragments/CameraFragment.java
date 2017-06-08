@@ -240,7 +240,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 break;
             case (R.id.btn_send_photo):
                 VisualRecognitionManager.getInstance().recognizeImage(camActivity.getCurrentPhotoPath());
-
+                MyConstants.IMAGE_FILE_PATH = camActivity.getCurrentPhotoPath();
                 FragmentManager fragmentManager = getFragmentManager();
                 BaseFragment targetFragment = ListClassifiersFragment.newInstance();
                 fragmentManager.beginTransaction()

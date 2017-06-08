@@ -3,6 +3,7 @@ package co.com.romero.sellmything.sellmything.utilities.rest;
 import android.app.Fragment;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -46,7 +47,7 @@ public class VisualRecognitionManager {
             @Override
             public void onResponse(Call<ClassifyPost> call, Response<ClassifyPost> response) {
                 ClassifyPostManager.getInstance().saveClassifyPostLocal(response.body());
-                Log.d("@@@ DEBUG", "onResponse: SUCCESS ON CALL :D" + response);
+                Toast.makeText(SellMyThing.getContext(), "Ready to classify :D", Toast.LENGTH_SHORT).show();
             }
 
             @Override
