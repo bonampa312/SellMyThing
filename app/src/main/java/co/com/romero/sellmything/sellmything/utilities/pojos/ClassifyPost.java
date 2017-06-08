@@ -21,7 +21,7 @@ public class ClassifyPost {
 
     @DatabaseField(columnName = ID, generatedId = true)
     private int id;
-    @ForeignCollectionField(columnName = IMAGES)
+    @ForeignCollectionField(columnName = IMAGES, eager = true)
     @SerializedName("images")
     private Collection<classifiers> images;
     @DatabaseField(columnName = CUSTOM_CLASSES)

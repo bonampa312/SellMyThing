@@ -29,7 +29,7 @@ public class ClassifyPerClassifier {
     @DatabaseField(columnName = CLASSIFIER_ID)
     @SerializedName("classifier_id")
     private String classifierId;
-    @ForeignCollectionField(columnName = CLASSES)
+    @ForeignCollectionField(columnName = CLASSES, eager = true)
     @SerializedName("classes")
     private Collection<ClassResult> classes;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = CLASSIFIERS_FIELD_NAME)

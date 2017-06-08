@@ -20,7 +20,7 @@ public class classifiers {
 
     @DatabaseField(columnName = ID, generatedId = true)
     private int id;
-    @ForeignCollectionField(columnName = CLASSIFIERS)
+    @ForeignCollectionField(columnName = CLASSIFIERS, eager = true)
     @SerializedName("classifiers")
     private Collection<ClassifyPerClassifier> classifiers;
     @DatabaseField(columnName = IMAGE)

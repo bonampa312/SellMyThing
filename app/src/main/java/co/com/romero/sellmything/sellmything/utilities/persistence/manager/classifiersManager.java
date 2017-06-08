@@ -1,7 +1,10 @@
 package co.com.romero.sellmything.sellmything.utilities.persistence.manager;
 
+import android.util.Log;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import co.com.romero.sellmything.sellmything.utilities.persistence.DataManager;
@@ -28,8 +31,9 @@ public class classifiersManager extends DataManager {
 
     public static void saveClassifiersLocal(classifiers classifier) {
         try {
-            classifiersManager.getInstance().dropTable();
             helper.getClassifiersDao().create(classifier);
+            Log.d("@@@ DEBUG", "onResponse: SUCCESS ON create " + classifier.getImage());
+            //ClassifyPerClassifierManager.getInstance().saveClassifyPerClassifierListLocal(classifier.getClassifiers());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,7 +50,7 @@ public class classifiersManager extends DataManager {
         }
     }
 
-    public static classifiers getClassifyPostLocal() {
+    public static classifiers getClassifiersLocal() {
         List<classifiers> classifierses = new ArrayList<>();
         try {
             classifierses = helper.getClassifiersDao().queryForAll();
@@ -54,5 +58,12 @@ public class classifiersManager extends DataManager {
             e.printStackTrace();
         }
         return classifierses.get(0);
+    }
+
+    public static void saveClassifierListLocal(Collection<classifiers> classifiersList){
+        classifiersManager.getInstance().dropTable();
+        for (classifiers cl : classifiersList) {
+            classifiersManager.getInstance().saveClassifiersLocal(cl);
+        }
     }
 }

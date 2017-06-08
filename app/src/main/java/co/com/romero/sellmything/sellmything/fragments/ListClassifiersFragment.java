@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.List;
+
 import co.com.romero.sellmything.sellmything.R;
+import co.com.romero.sellmything.sellmything.utilities.persistence.manager.ClassResultManager;
 import co.com.romero.sellmything.sellmything.utilities.persistence.manager.ClassifyPostManager;
 import co.com.romero.sellmything.sellmything.utilities.pojos.ClassResult;
 import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPerClassifier;
@@ -19,7 +22,7 @@ import co.com.romero.sellmything.sellmything.utilities.pojos.classifiers;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListClassifiersFragment extends BaseFragment implements Button.OnClickListener{
+public class ListClassifiersFragment extends BaseFragment implements Button.OnClickListener {
 
     private Button getListButton;
 
@@ -49,16 +52,12 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
         switch (view.getId()) {
             case (R.id.btn_get_list):
                 ClassifyPost classifyPost = ClassifyPostManager.getInstance().getClassifyPostLocal();
-               /* for (classifiers classify: classifyPost.getImages()) {
-                    for (ClassifyPerClassifier classifier :
-                            classify.getClassifiers()) {
-                        for (ClassResult classResult:
-                             classifier.getClasses()) {
-                            Log.d("@@@ DEBUG", "Class: "+classResult.getClase()+ " Score: "+classResult.getClase());
-                        }
-                    }
-                }*/
-                Log.d("@@@ DEBUG", "onClick: SUCCESS MADAFACA  "+classifyPost);
+                List<ClassResult> classResultList = ClassResultManager.getInstance().getClassResultLocal();
+                for (ClassResult classResult : classResultList) {
+                    Log.d("@@@ DEBUG", "Class: " + classResult.getClase() + " Score: " + classResult.getClase());
+                }
+
+                Log.d("@@@ DEBUG", "onClick: SUCCESS MADAFACA  " + classifyPost);
                 break;
         }
     }
