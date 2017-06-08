@@ -23,6 +23,7 @@
 package co.com.romero.sellmything.sellmything.fragments;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -70,12 +71,13 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
     /**
      * Default empty constructor.
      */
-    public CameraFragment(){
+    public CameraFragment() {
         super();
     }
 
     /**
      * Static factory method
+     *
      * @return
      */
     public static CameraFragment newInstance() {
@@ -85,6 +87,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
     /**
      * OnCreateView fragment override
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -93,14 +96,14 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  null;
+        View view = null;
         view = inflater.inflate(R.layout.fragment_camera, container, false);
 
         // Set the image view
-        mImageView = (ImageView)view.findViewById(R.id.imageViewFullSized);
-        takePictureButton = (Button)view.findViewById(R.id.btn_take_photo);
-        takePictureAgainButton = (Button)view.findViewById(R.id.btn_take_photo_again);
-        sendPictureButton = (Button)view.findViewById(R.id.btn_send_photo);
+        mImageView = (ImageView) view.findViewById(R.id.imageViewFullSized);
+        takePictureButton = (Button) view.findViewById(R.id.btn_take_photo);
+        takePictureAgainButton = (Button) view.findViewById(R.id.btn_take_photo_again);
+        sendPictureButton = (Button) view.findViewById(R.id.btn_send_photo);
         pictureTakenLinearLayout = (LinearLayout) view.findViewById(R.id.linlay_btns_photo_taken);
         takePictureButton.setVisibility(View.VISIBLE);
         pictureTakenLinearLayout.setVisibility(View.INVISIBLE);
@@ -120,7 +123,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         // Check if there is a camera.
         Context context = getActivity();
         PackageManager packageManager = context.getPackageManager();
-        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false){
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false) {
             Toast.makeText(getActivity(), "This device does not have a camera.", Toast.LENGTH_SHORT)
                     .show();
             return;
@@ -130,7 +133,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         // Ensure that there's a camera activity to handle the intent
-        CameraActivity activity = (CameraActivity)getActivity();
+        CameraActivity activity = (CameraActivity) getActivity();
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
             // Create the File where the photo should go.
             // If you don't do this, you may get a crash in some devices.
@@ -139,7 +142,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.d("@@@ DEBUG", "dispatchTakePictureIntent: error: ",ex);
+                Log.d("@@@ DEBUG", "dispatchTakePictureIntent: error: ", ex);
                 Toast toast = Toast.makeText(activity, "There was a problem saving the photo...", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -157,6 +160,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
     /**
      * The activity returns with the photo.
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -166,7 +170,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
             addPhotoToGallery();
-            CameraActivity activity = (CameraActivity)getActivity();
+            CameraActivity activity = (CameraActivity) getActivity();
 
             // Show the full sized image.
             setFullImageFromFilePath(activity.getCurrentPhotoPath(), mImageView);
@@ -178,6 +182,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
     /**
      * Creates the image file to which the image must be saved.
+     *
      * @return
      * @throws IOException
      */
@@ -194,7 +199,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        CameraActivity activity = (CameraActivity)getActivity();
+        CameraActivity activity = (CameraActivity) getActivity();
         activity.setCurrentPhotoPath("file:" + image.getAbsolutePath());
         return image;
     }
@@ -206,7 +211,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
      */
     protected void addPhotoToGallery() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        CameraActivity activity = (CameraActivity)getActivity();
+        CameraActivity activity = (CameraActivity) getActivity();
         File f = new File(activity.getCurrentPhotoPath());
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
@@ -215,26 +220,33 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
     /**
      * Deal with button clicks.
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
-        CameraActivity camActivity = (CameraActivity)getActivity();
-        switch(v.getId()){
-            case(R.id.btn_take_photo):
+        CameraActivity camActivity = (CameraActivity) getActivity();
+        switch (v.getId()) {
+            case (R.id.btn_take_photo):
                 takePictureButton.setVisibility(View.INVISIBLE);
                 pictureTakenLinearLayout.setVisibility(View.VISIBLE);
                 dispatchTakePictureIntent();
                 break;
-            case(R.id.btn_take_photo_again):
-                if(deletePhoto(camActivity.getCurrentPhotoPath())){
+            case (R.id.btn_take_photo_again):
+                if (deletePhoto(camActivity.getCurrentPhotoPath())) {
                     Toast.makeText(this.getActivity(), "Photo deleted", Toast.LENGTH_SHORT).show();
                 }
                 dispatchTakePictureIntent();
                 break;
-            case(R.id.btn_send_photo):
-                camActivity = (CameraActivity)getActivity();
+            case (R.id.btn_send_photo):
+                camActivity = (CameraActivity) getActivity();
                 VisualRecognitionManager.getInstance().recognizeImage(camActivity.getCurrentPhotoPath());
+
+                FragmentManager fragmentManager = getFragmentManager();
+                BaseFragment targetFragment = ListClassifiersFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, targetFragment)
+                        .commit();
                 break;
         }
 
@@ -242,7 +254,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
 
     /**
      * Scale the photo down and fit it to our image views.
-     *
+     * <p>
      * "Drastically increases performance" to set images using this technique.
      * Read more:http://developer.android.com/training/camera/photobasics.html
      */
@@ -259,7 +271,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -270,7 +282,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         imageView.setImageBitmap(bitmap);
     }
 
-    private boolean deletePhoto(String filepath){
+    private boolean deletePhoto(String filepath) {
         File file = new File(filepath);
         boolean deleted = file.delete();
         return deleted;

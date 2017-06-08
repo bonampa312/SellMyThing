@@ -19,6 +19,7 @@ public class MainActivity extends CameraActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SellMyThing.setContext(getApplicationContext());
         setContentView(R.layout.activity_main);
         setFragment(MyConstants.MAIN_FRAGMENT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

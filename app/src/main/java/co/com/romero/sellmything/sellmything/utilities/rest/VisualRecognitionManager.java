@@ -9,6 +9,7 @@ import java.util.List;
 
 import co.com.romero.sellmything.sellmything.R;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
+import co.com.romero.sellmything.sellmything.utilities.persistence.manager.ClassifyPostManager;
 import co.com.romero.sellmything.sellmything.utilities.pojos.ClassResult;
 import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPost;
 import okhttp3.MediaType;
@@ -46,6 +47,7 @@ public class VisualRecognitionManager {
             @Override
             public void onResponse(Call<ClassifyPost> call, Response<ClassifyPost> response) {
                 Log.d("@@@ DEBUG", "onResponse: SUCCESS ON CALL :D" + response);
+                ClassifyPostManager.getInstance().saveClassifyPostLocal(response.body());
             }
 
             @Override
