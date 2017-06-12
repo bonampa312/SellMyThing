@@ -25,7 +25,7 @@ public interface APIInterface {
     @POST("v3/classify?")
     Call<ClassifyPost> classifyImage(@Query("api_key") String apiKey, @Query("version") String apiVersion, @Part("image_file") RequestBody imageFile);
 
-    @GET("sites/{country_code}/search?q={item_name}")
-    Call<Results> getItems(@Path("country_code") String countryCode, @Path("item_name") String itemName);
+    @GET("sites/{country_code}/search")
+    Call<Results> getItems(@Path("country_code") String countryCode, @Query("q") String itemName);
 
 }

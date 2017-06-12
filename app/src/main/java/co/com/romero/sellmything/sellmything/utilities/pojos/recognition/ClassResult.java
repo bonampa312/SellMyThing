@@ -13,7 +13,6 @@ public class ClassResult {
     public static final String SCORE = "score";
     public static final String TYPE_HIERARCHY = "type_hierarchy";
     public static final String CLASS_RESULT_FIELD_NAME = "class_result_id";
-
     public static final String ID = "id";
 
     @DatabaseField(columnName = ID, generatedId = true)

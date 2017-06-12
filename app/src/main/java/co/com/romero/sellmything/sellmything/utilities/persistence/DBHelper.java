@@ -13,6 +13,8 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import co.com.romero.sellmything.sellmything.utilities.pojos.mercadolibre.Address;
+import co.com.romero.sellmything.sellmything.utilities.pojos.mercadolibre.ItemResults;
 import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassResult;
 import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPerClassifier;
 import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPost;
@@ -27,6 +29,8 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<ClassifyPerClassifier, Integer> classifyPerClassifierDao;
     private Dao<ClassifyPost, Integer> classifyPostDao;
     private Dao<ClassResult, Integer> classResultDao;
+    private Dao<Address, Integer> addressDao;
+    private Dao<ItemResults, Integer> itemResultDao;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,6 +43,8 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, ClassifyPerClassifier.class);
             TableUtils.createTable(connectionSource, ClassifyPost.class);
             TableUtils.createTable(connectionSource, ClassResult.class);
+            TableUtils.createTable(connectionSource, Address.class);
+            TableUtils.createTable(connectionSource, ItemResults.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -50,11 +56,15 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(getConnectionSource(), ClassifyPost.class, true);
             TableUtils.dropTable(getConnectionSource(), ClassifyPerClassifier.class, true);
             TableUtils.dropTable(getConnectionSource(), ClassResult.class, true);
+            TableUtils.dropTable(getConnectionSource(), ItemResults.class, true);
+            TableUtils.dropTable(getConnectionSource(), Address.class, true);
 
             TableUtils.createTable(getConnectionSource(), ClassResult.class);
             TableUtils.createTable(getConnectionSource(), ClassifyPerClassifier.class);
             TableUtils.createTable(getConnectionSource(), classifiers.class);
             TableUtils.createTable(getConnectionSource(), ClassifyPost.class);
+            TableUtils.createTable(getConnectionSource(), Address.class);
+            TableUtils.createTable(getConnectionSource(), ItemResults.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -93,6 +103,28 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         return classResultDao;
     }
 
+    public Dao<Address, Integer> getAddressDao() throws SQLException {
+        if (addressDao == null){
+            addressDao = getDao(Address.class);
+        }
+        return addressDao;
+    }
+
+    public void setAddressDao(Dao<Address, Integer> addressDao) {
+        this.addressDao = addressDao;
+    }
+
+    public Dao<ItemResults, Integer> getItemResultDao() throws SQLException {
+        if (itemResultDao == null){
+            itemResultDao = getDao(ItemResults.class);
+        }
+        return itemResultDao;
+    }
+
+    public void setItemResultDao(Dao<ItemResults, Integer> itemResultDao) {
+        this.itemResultDao = itemResultDao;
+    }
+
     @Override
     public void close() {
         super.close();
@@ -100,6 +132,8 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         classifyPostDao = null;
         classResultDao = null;
         classifyPerClassifierDao= null;
+        itemResultDao= null;
+        addressDao = null;
     }
 
 }

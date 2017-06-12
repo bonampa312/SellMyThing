@@ -32,6 +32,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -259,7 +260,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 //VisualRecognitionManager.getInstance().recognizeImage(camActivity.getCurrentPhotoPath());
                 APIInterface apiInterface = APIClient.getClientWatson().create(APIInterface.class);
                 rlLoading.setVisibility(View.VISIBLE);
-                llTakePicture.setClickable(false);
+                setClickable(llTakePicture, false);
                 File file = new File(camActivity.getCurrentPhotoPath());
                 RequestBody image = RequestBody.create(MediaType.parse("image/*"), file);
                 Call<ClassifyPost> call = apiInterface.classifyImage(MyConstants.WATSON_API_KEY, MyConstants.WATSON_VERSION, image);
@@ -276,7 +277,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                         Log.d("@@@ DEBUG", "onResponse: FAILURE ON CALL", t);
                         Toast.makeText(SellMyThing.getContext(), "Failed, try again :c", Toast.LENGTH_SHORT).show();
                         rlLoading.setVisibility(View.INVISIBLE);
-                        llTakePicture.setClickable(true);
+                        setClickable(llTakePicture, true);
                     }
                 });
                 break;
@@ -321,12 +322,28 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
     }
 
     private void changeFragment(){
-        FragmentManager fragmentManager = getFragmentManager();
-        BaseFragment targetFragment = ListClassifiersFragment.newInstance();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, targetFragment)
-                .addToBackStack(null)
-                .commit();
+        new Handler().post(new Runnable() {
+            public void run() {
+                FragmentManager fragmentManager = getFragmentManager();
+                BaseFragment targetFragment = ListClassifiersFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, targetFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
     }
 
+    public void setClickable(View view, boolean flag) {
+        if (view != null) {
+            view.setClickable(flag);
+            if (view instanceof ViewGroup) {
+                ViewGroup vg = ((ViewGroup) view);
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    setClickable(vg.getChildAt(i), flag);
+                }
+            }
+        }
+    }
 }
