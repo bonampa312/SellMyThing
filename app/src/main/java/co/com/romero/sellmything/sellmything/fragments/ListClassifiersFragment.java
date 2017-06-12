@@ -172,7 +172,6 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
                 BaseFragment targetFragment = ListMercadolibreItemsFragment.newInstance();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, targetFragment)
-                        .addToBackStack(null)
                         .commit();
             }
         });

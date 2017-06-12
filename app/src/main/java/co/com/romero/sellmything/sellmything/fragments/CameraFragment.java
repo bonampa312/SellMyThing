@@ -328,7 +328,6 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 BaseFragment targetFragment = ListClassifiersFragment.newInstance();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, targetFragment)
-                        .addToBackStack(null)
                         .commit();
             }
         });

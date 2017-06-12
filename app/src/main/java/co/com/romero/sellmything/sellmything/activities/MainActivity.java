@@ -85,23 +85,31 @@ public class MainActivity extends CameraActivity {
         switch (idFragment) {
             case CameraFragment.ID: {
                 targetFragment = CameraFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, targetFragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             }
             case MainActivityFragment.ID: {
                 targetFragment = MainActivityFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, targetFragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             }
             case StartSplashFragment.ID: {
                 targetFragment = StartSplashFragment.newInstance();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, targetFragment)
+                        .commit();
                 break;
             }
             default:
                 break;
         }
         // Select the fragment.
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, targetFragment).addToBackStack(null)
-                .commit();
     }
 
     @Override
