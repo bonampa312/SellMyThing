@@ -25,7 +25,7 @@ public class VisualRecognitionManager {
     private APIInterface apiInterface;
 
     private VisualRecognitionManager() {
-        apiInterface = APIClient.getClient(1).create(APIInterface.class);
+        apiInterface = APIClient.getClientWatson().create(APIInterface.class);
     }
 
     public static VisualRecognitionManager getInstance() {

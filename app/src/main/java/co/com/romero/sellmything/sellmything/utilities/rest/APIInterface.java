@@ -21,6 +21,7 @@ import retrofit2.http.Query;
 public interface APIInterface {
 
     @Multipart
+    @Headers("Accept-Language: es")
     @POST("v3/classify?")
     Call<ClassifyPost> classifyImage(@Query("api_key") String apiKey, @Query("version") String apiVersion, @Part("image_file") RequestBody imageFile);
 

@@ -40,12 +40,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import co.com.romero.sellmything.sellmything.activities.SellMyThing;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.R;
 import co.com.romero.sellmything.sellmything.activities.CameraActivity;
+import co.com.romero.sellmything.sellmything.utilities.persistence.manager.ClassifyPostManager;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPost;
+import co.com.romero.sellmything.sellmything.utilities.rest.APIClient;
+import co.com.romero.sellmything.sellmything.utilities.rest.APIInterface;
 import co.com.romero.sellmything.sellmything.utilities.rest.VisualRecognitionManager;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -67,6 +78,8 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
     private Button takePictureAgainButton;
     private Button sendPictureButton;
     private LinearLayout pictureTakenLinearLayout;
+    private RelativeLayout rlLoading;
+    private LinearLayout llTakePicture;
 
     /**
      * Default empty constructor.
@@ -105,6 +118,9 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         takePictureAgainButton = (Button) view.findViewById(R.id.btn_take_photo_again);
         sendPictureButton = (Button) view.findViewById(R.id.btn_send_photo);
         pictureTakenLinearLayout = (LinearLayout) view.findViewById(R.id.linlay_btns_photo_taken);
+        llTakePicture = (LinearLayout) view.findViewById(R.id.ll_take_picture);
+        rlLoading = (RelativeLayout) view.findViewById(R.id.rl_loading);
+
         takePictureButton.setVisibility(View.VISIBLE);
         pictureTakenLinearLayout.setVisibility(View.INVISIBLE);
         // Set OnItemClickListener so we can be notified on button clicks
@@ -239,14 +255,30 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                 dispatchTakePictureIntent();
                 break;
             case (R.id.btn_send_photo):
-                VisualRecognitionManager.getInstance().recognizeImage(camActivity.getCurrentPhotoPath());
-                MyConstants.IMAGE_FILE_PATH = camActivity.getCurrentPhotoPath();
-                FragmentManager fragmentManager = getFragmentManager();
-                BaseFragment targetFragment = ListClassifiersFragment.newInstance();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, targetFragment)
-                        .addToBackStack(null)
-                        .commit();
+
+                //VisualRecognitionManager.getInstance().recognizeImage(camActivity.getCurrentPhotoPath());
+                APIInterface apiInterface = APIClient.getClientWatson().create(APIInterface.class);
+                rlLoading.setVisibility(View.VISIBLE);
+                llTakePicture.setClickable(false);
+                File file = new File(camActivity.getCurrentPhotoPath());
+                RequestBody image = RequestBody.create(MediaType.parse("image/*"), file);
+                Call<ClassifyPost> call = apiInterface.classifyImage(MyConstants.WATSON_API_KEY, MyConstants.WATSON_VERSION, image);
+                call.enqueue(new Callback<ClassifyPost>() {
+                    @Override
+                    public void onResponse(Call<ClassifyPost> call, Response<ClassifyPost> response) {
+                        ClassifyPostManager.getInstance().saveClassifyPostLocal(response.body());
+                        Toast.makeText(SellMyThing.getContext(), "Ready to classify :D", Toast.LENGTH_SHORT).show();
+                        changeFragment();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ClassifyPost> call, Throwable t) {
+                        Log.d("@@@ DEBUG", "onResponse: FAILURE ON CALL", t);
+                        Toast.makeText(SellMyThing.getContext(), "Failed, try again :c", Toast.LENGTH_SHORT).show();
+                        rlLoading.setVisibility(View.INVISIBLE);
+                        llTakePicture.setClickable(true);
+                    }
+                });
                 break;
         }
 
@@ -286,6 +318,15 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
         File file = new File(filepath);
         boolean deleted = file.delete();
         return deleted;
+    }
+
+    private void changeFragment(){
+        FragmentManager fragmentManager = getFragmentManager();
+        BaseFragment targetFragment = ListClassifiersFragment.newInstance();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, targetFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 }

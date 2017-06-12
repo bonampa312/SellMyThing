@@ -164,7 +164,7 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
                 });*/
                 break;
             case (R.id.btn_get_items):
-                APIInterface apiInterface = APIClient.getClient(2).create(APIInterface.class);
+                APIInterface apiInterface = APIClient.getClientMercadolibre().create(APIInterface.class);
                 String itemName = classResultList.get(valueSelected).getClase();
                 Call<Results> call = apiInterface.getItems(countrySelectedCode, itemName);
                 call.enqueue(new Callback<Results>() {

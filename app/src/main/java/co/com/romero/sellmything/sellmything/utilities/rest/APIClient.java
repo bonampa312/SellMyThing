@@ -12,27 +12,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APIClient {
 
     private static Retrofit retrofit = null;
+    private static Retrofit retrofitM = null;
 
-    public static Retrofit getClient(int endpoint) {
+    public static Retrofit getClientWatson() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        if (endpoint == 1) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("https://gateway-a.watsonplatform.net/visual-recognition/api/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(client)
-                    .build();
-        } else {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.mercadolibre.com/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(client)
-                    .build();
-        }
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://gateway-a.watsonplatform.net/visual-recognition/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
         return retrofit;
+    }
+
+    public static Retrofit getClientMercadolibre() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        retrofitM = new Retrofit.Builder()
+                .baseUrl("https://api.mercadolibre.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+        return retrofitM;
     }
 
 }

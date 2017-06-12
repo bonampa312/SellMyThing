@@ -14,7 +14,7 @@ public class MercadolibreItemsManager {
     private APIInterface apiInterface;
 
     private MercadolibreItemsManager(){
-        apiInterface = APIClient.getClient(2).create(APIInterface.class);
+        apiInterface = APIClient.getClientMercadolibre().create(APIInterface.class);
     }
 
     public static MercadolibreItemsManager getInstance(){
