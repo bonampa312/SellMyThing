@@ -8,8 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 import co.com.romero.sellmything.sellmything.utilities.persistence.DataManager;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassResult;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPost;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassResult;
 
 /**
  * Created by bonam_000 on 07/06/2017.

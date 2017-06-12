@@ -8,10 +8,10 @@ import java.util.Collection;
 import java.util.List;
 
 import co.com.romero.sellmything.sellmything.utilities.persistence.DataManager;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassResult;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPerClassifier;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPost;
-import co.com.romero.sellmything.sellmything.utilities.pojos.classifiers;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassResult;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPerClassifier;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPost;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.classifiers;
 
 /**
  * Created by bonam_000 on 07/06/2017.

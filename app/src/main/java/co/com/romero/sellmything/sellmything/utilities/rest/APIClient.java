@@ -9,22 +9,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by anupamchugh on 05/01/17.
  */
 
-class APIClient {
+public class APIClient {
 
     private static Retrofit retrofit = null;
 
-    static Retrofit getWatsonClient() {
+    public static Retrofit getClient(int endpoint) {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://gateway-a.watsonplatform.net/visual-recognition/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
+        if (endpoint == 1) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("https://gateway-a.watsonplatform.net/visual-recognition/api/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build();
+        } else {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("https://api.mercadolibre.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build();
+        }
         return retrofit;
     }
 

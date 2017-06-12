@@ -1,22 +1,22 @@
 package co.com.romero.sellmything.sellmything.fragments;
 
 
-import android.content.Intent;
-import android.graphics.Camera;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mercadolibre.android.sdk.ApiResponse;
@@ -26,13 +26,18 @@ import com.mercadolibre.android.sdk.Meli;
 import java.util.List;
 
 import co.com.romero.sellmything.sellmything.R;
-import co.com.romero.sellmything.sellmything.activities.CameraActivity;
 import co.com.romero.sellmything.sellmything.activities.LoginScreen;
 import co.com.romero.sellmything.sellmything.activities.MainActivity;
 import co.com.romero.sellmything.sellmything.activities.SellMyThing;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.utilities.persistence.manager.ClassResultManager;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassResult;
+import co.com.romero.sellmything.sellmything.utilities.pojos.mercadolibre.Results;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassResult;
+import co.com.romero.sellmything.sellmything.utilities.rest.APIClient;
+import co.com.romero.sellmything.sellmything.utilities.rest.APIInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,12 +46,16 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
 
     private Button getListButton;
     private Button btnLogin;
+    private Button btnGetMercadolibre;
     private Button btnPost;
     private RelativeLayout listRelativeLayout;
     private LinearLayout llMercadolibreBtns;
     private static String classSelected;
+    private Spinner spinnerCountry;
+    private String countrySelectedCode;
     private static RadioButton[] radioButtons;
     private static int valueSelected;
+    private String[] codes;
 
     public ListClassifiersFragment() {
         // Required empty public constructor
@@ -58,13 +67,23 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_classifiers, container, false);
         // Inflate the layout for this fragment
-        getListButton = (Button) view.findViewById(R.id.btn_get_list);
-        listRelativeLayout = (RelativeLayout) view.findViewById(R.id.rl_classes_list);
-        llMercadolibreBtns = (LinearLayout) view.findViewById(R.id.ll_mercadolibre_btns);
+        codes = getResources().getStringArray(R.array.country_codes);
 
         setupUi(view);
 
-        getListButton.setOnClickListener(this);
+        spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int index = spinnerCountry.getSelectedItemPosition();
+                countrySelectedCode = codes[index];
+                Toast.makeText(SellMyThing.getContext(), "Code: "+countrySelectedCode, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                countrySelectedCode = codes[0];
+                Toast.makeText(SellMyThing.getContext(), "Code nothing: "+countrySelectedCode, Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
@@ -75,11 +94,28 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
 
     private void setupUi(View view) {
 
+        listRelativeLayout = (RelativeLayout) view.findViewById(R.id.rl_classes_list);
+        llMercadolibreBtns = (LinearLayout) view.findViewById(R.id.ll_mercadolibre_btns);
+
+        getListButton = (Button) view.findViewById(R.id.btn_get_list);
+        getListButton.setOnClickListener(this);
+
         btnLogin = (Button) view.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
 
         btnPost = (Button) view.findViewById(R.id.btn_post);
         btnPost.setOnClickListener(this);
+
+        btnGetMercadolibre = (Button) view.findViewById(R.id.btn_get_items);
+        btnGetMercadolibre.setOnClickListener(this);
+
+        spinnerCountry = (Spinner) view.findViewById(R.id.spinner_countries);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(SellMyThing.getContext(),
+                R.array.country_names, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCountry.setAdapter(adapter);
+
+
     }
 
     @Override
@@ -104,7 +140,8 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
                 }
                 listRelativeLayout.addView(rg);
                 getListButton.setVisibility(View.INVISIBLE);
-                llMercadolibreBtns.setVisibility(View.VISIBLE);
+                // llMercadolibreBtns.setVisibility(View.VISIBLE);
+                btnGetMercadolibre.setVisibility(View.VISIBLE);
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -114,20 +151,34 @@ public class ListClassifiersFragment extends BaseFragment implements Button.OnCl
                 });
                 break;
             case (R.id.btn_login):
-                Intent intent = new Intent(getActivity(), LoginScreen.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(getActivity(), LoginScreen.class);
+                startActivity(intent);*/
                 break;
             case (R.id.btn_post):
-
-                classSelected = classResultList.get(valueSelected).getClase();
-
-
+                /*classSelected = classResultList.get(valueSelected).getClase();
                 new GetAsycTask().execute(new Command() {
                     @Override
                     ApiResponse executeCommand() {
                         return Meli.post("/items", getJson(), Meli.getCurrentIdentity(SellMyThing.getContext()));
                     }
+                });*/
+                break;
+            case (R.id.btn_get_items):
+                APIInterface apiInterface = APIClient.getClient(2).create(APIInterface.class);
+                String itemName = classResultList.get(valueSelected).getClase();
+                Call<Results> call = apiInterface.getItems(countrySelectedCode, itemName);
+                call.enqueue(new Callback<Results>() {
+                    @Override
+                    public void onResponse(Call<Results> call, Response<Results> response) {
+                        Log.d("@@@ DEBUG", "onResponse: mercadolibre: "+response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Results> call, Throwable t) {
+                        Log.d("@@@ DEBUG", "onFailure: ERROR MERCADOLIBRE: "+t);
+                    }
                 });
+
                 break;
         }
     }
@@ -188,6 +239,7 @@ private String getJson(){
     private static final String PUT_JSON = "{\n" +
             "  \"status\":\"paused\"\n" +
             "}";
+
 
 
 }

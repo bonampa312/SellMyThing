@@ -13,10 +13,10 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassResult;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPerClassifier;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPost;
-import co.com.romero.sellmything.sellmything.utilities.pojos.classifiers;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassResult;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPerClassifier;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPost;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.classifiers;
 
 public class DBHelper extends OrmLiteSqliteOpenHelper {
 

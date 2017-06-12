@@ -1,17 +1,14 @@
 package co.com.romero.sellmything.sellmything.utilities.rest;
 
-import android.app.Fragment;
-import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
 
-import co.com.romero.sellmything.sellmything.activities.MainActivity;
 import co.com.romero.sellmything.sellmything.activities.SellMyThing;
 import co.com.romero.sellmything.sellmything.utilities.MyConstants;
 import co.com.romero.sellmything.sellmything.utilities.persistence.manager.ClassifyPostManager;
-import co.com.romero.sellmything.sellmything.utilities.pojos.ClassifyPost;
+import co.com.romero.sellmything.sellmything.utilities.pojos.recognition.ClassifyPost;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -28,7 +25,7 @@ public class VisualRecognitionManager {
     private APIInterface apiInterface;
 
     private VisualRecognitionManager() {
-        apiInterface = APIClient.getWatsonClient().create(APIInterface.class);
+        apiInterface = APIClient.getClient(1).create(APIInterface.class);
     }
 
     public static VisualRecognitionManager getInstance() {

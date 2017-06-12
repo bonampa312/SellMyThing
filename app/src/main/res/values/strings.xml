@@ -39,4 +39,51 @@
     <string name="result_title">Result</string>
     <string name="result_code">Code: %1$s</string>
     <string name="result_content">Content: %1$s</string>
+
+    <string-array name="country_names">
+        <item>Colombia</item>
+        <item>Brasil</item>
+        <item>Portugal</item>
+        <item>Uruguay</item>
+        <item>Paraguay</item>
+        <item>Dominicana</item>
+        <item>Costa Rica</item>
+        <item>Ecuador</item>
+        <item>Perú</item>
+        <item>El Salvador</item>
+        <item>Bolivia</item>
+        <item>Chile</item>
+        <item>México</item>
+        <item>Argentina</item>
+        <item>Venezuela</item>
+        <item>Nicaragua</item>
+        <item>Panamá</item>
+        <item>Cuba</item>
+        <item>Guatemala</item>
+        <item>Honduras</item>
+    </string-array>
+
+    <string-array name="country_codes">
+        <item>MCO</item>
+        <item>MLB</item>
+        <item>MPT</item>
+        <item>MLU</item>
+        <item>MPY</item>
+        <item>MRD</item>
+        <item>MCR</item>
+        <item>MEC</item>
+        <item>MPE</item>
+        <item>MSV</item>
+        <item>MBO</item>
+        <item>MLC</item>
+        <item>MLM</item>
+        <item>MLA</item>
+        <item>MLV</item>
+        <item>MNI</item>
+        <item>MPA</item>
+        <item>MCU</item>
+        <item>MGT</item>
+        <item>MHN</item>
+    </string-array>
+
 </resources>

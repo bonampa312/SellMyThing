@@ -1,4 +1,4 @@
-package co.com.romero.sellmything.sellmything.utilities.pojos;
+package co.com.romero.sellmything.sellmything.utilities.pojos.recognition;
 
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;

@@ -19,7 +19,16 @@
             android:gravity="center_horizontal"
             android:text="Choose your thing here"
             android:textSize="25dp" />
-        <!-- TODO: Update blank fragment layout -->
+
+        <Spinner
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/spinner_countries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+        </Spinner>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -28,10 +37,11 @@
                 android:id="@+id/rl_classes_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <RadioGroup
+                    android:id="@+id/rg_list_classes"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/rg_list_classes">
+                    android:layout_height="match_parent">
 
                 </RadioGroup>
 
@@ -55,8 +65,8 @@
                 android:id="@+id/ll_mercadolibre_btns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/btn_login"
@@ -72,6 +82,13 @@
                     android:layout_margin="7dp"
                     android:text="post" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_get_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go to mercadolibre"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
