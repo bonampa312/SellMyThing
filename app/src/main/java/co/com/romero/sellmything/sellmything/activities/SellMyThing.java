@@ -8,6 +8,7 @@ import android.content.Context;
 
 public class SellMyThing extends Application {
     private static Context context;
+    private static MainActivity mainActivity;
 
     public SellMyThing() {}
 
@@ -25,4 +26,11 @@ public class SellMyThing extends Application {
         SellMyThing.context = context;
     }
 
+    public static MainActivity getMainActivity() {
+        return mainActivity;
+    }
+
+    public static void setMainActivity(MainActivity mainActivity) {
+        SellMyThing.mainActivity = mainActivity;
+    }
 }

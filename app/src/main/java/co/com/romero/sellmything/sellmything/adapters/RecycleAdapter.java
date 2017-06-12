@@ -1,5 +1,7 @@
 package co.com.romero.sellmything.sellmything.adapters;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import co.com.romero.sellmything.sellmything.R;
+import co.com.romero.sellmything.sellmything.activities.MainActivity;
 import co.com.romero.sellmything.sellmything.activities.SellMyThing;
 import co.com.romero.sellmything.sellmything.utilities.pojos.mercadolibre.ItemResults;
 
@@ -54,6 +57,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ItemHold
         private ImageView mItemImage;
         private TextView mItemTitle;
         private TextView mItemPrice;
+        private String urlItem;
 
         public ItemHolder(View v) {
             super(v);
@@ -67,12 +71,15 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ItemHold
         @Override
         public void onClick(View v) {
             Toast.makeText(SellMyThing.getContext(), "Working list", Toast.LENGTH_SHORT).show();
+            final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(urlItem));
+            SellMyThing.getMainActivity().startActivity(intent);
         }
 
         public void bindItem(ItemResults item) {
             Picasso.with(mItemImage.getContext()).load(item.getThumbnail()).into(mItemImage);
             mItemTitle.setText(item.getTitle());
             mItemPrice.setText(item.getPrice());
+            urlItem = item.getPermalink();
         }
     }
 

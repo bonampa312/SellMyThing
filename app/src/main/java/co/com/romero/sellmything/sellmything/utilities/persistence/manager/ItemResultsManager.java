@@ -60,6 +60,7 @@ public class ItemResultsManager extends DataManager{
     public static void saveItemResultsesListLocal(Collection<ItemResults> itemResultses){
         ItemResultsManager.getInstance().dropTable();
         for (ItemResults cl : itemResultses) {
+            AddressManager.getInstance().saveAddressLocal(cl.getAddress());
             ItemResultsManager.getInstance().saveItemResultsLocal(cl);
         }
     }
