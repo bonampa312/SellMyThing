@@ -57,6 +57,16 @@ public class AddressManager extends DataManager{
         return addresses;
     }
 
+    public static Address getAddressLocal(int id) {
+        Address addresses = new Address();
+        try {
+            addresses = helper.getAddressDao().queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return addresses;
+    }
+
     public static void saveAddressesListLocal(Collection<Address> addresses){
         AddressManager.getInstance().dropTable();
         for (Address cl : addresses) {

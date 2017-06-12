@@ -48,13 +48,13 @@ public class ItemResultsManager extends DataManager{
     }
 
     public static List<ItemResults> getItemResultsLocal() {
-        List<ItemResults> itemResultses = new ArrayList<>();
+        List<ItemResults> itemResults = new ArrayList<>();
         try {
-            itemResultses = helper.getItemResultDao().queryForAll();
+            itemResults = helper.getItemResultDao().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return itemResultses;
+        return itemResults;
     }
 
     public static void saveItemResultsesListLocal(Collection<ItemResults> itemResultses){
@@ -63,6 +63,7 @@ public class ItemResultsManager extends DataManager{
             AddressManager.getInstance().saveAddressLocal(cl.getAddress());
             ItemResultsManager.getInstance().saveItemResultsLocal(cl);
         }
+        Log.d("@@@ DEBUG", "saveItemResultsesListLocal: SUCCES SAVING THIS");
     }
     
 }

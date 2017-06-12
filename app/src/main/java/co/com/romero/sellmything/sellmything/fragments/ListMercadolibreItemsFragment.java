@@ -56,10 +56,10 @@ public class ListMercadolibreItemsFragment extends BaseFragment {
 
         // Crear la fome esa de lista weona po qlia
 
+        itemResults = new ArrayList<>();
         itemResults.addAll(ItemResultsManager.getInstance().getItemResultsLocal());
         mAdapter = new RecycleAdapter(itemResults);
         rvItems.setAdapter(mAdapter);
-
 
     }
 

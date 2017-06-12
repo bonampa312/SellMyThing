@@ -268,7 +268,7 @@ public class CameraFragment extends BaseFragment implements Button.OnClickListen
                     @Override
                     public void onResponse(Call<ClassifyPost> call, Response<ClassifyPost> response) {
                         ClassifyPostManager.getInstance().saveClassifyPostLocal(response.body());
-                        Toast.makeText(SellMyThing.getContext(), "Ready to classify :D", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(SellMyThing.getContext(), "Ready to classify :D", Toast.LENGTH_SHORT).show();
                         changeFragment();
                     }
 

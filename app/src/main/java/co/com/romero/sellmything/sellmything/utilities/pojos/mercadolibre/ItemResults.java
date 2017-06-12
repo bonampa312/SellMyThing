@@ -15,9 +15,13 @@ public class ItemResults {
     public static final String THUMBNAIL = "thumbnail";
     public static final String ADDRESS = "address";
     public static final String ID = "id";
+    public static final String ID_ITEM = "id_item";
 
     @DatabaseField(columnName = ID, generatedId = true)
-    private int id;
+    private int idDB;
+    @DatabaseField(columnName = ID_ITEM)
+    @SerializedName("id")
+    private String idItem;
     @DatabaseField(columnName = TITLE)
     @SerializedName("title")
     private String title;
@@ -79,6 +83,14 @@ public class ItemResults {
 
     public Address getAddress() {
         return address;
+    }
+
+    public int getIdDB() {
+        return idDB;
+    }
+
+    public void setIdDB(int idDB) {
+        this.idDB = idDB;
     }
 
     public void setAddress(Address address) {

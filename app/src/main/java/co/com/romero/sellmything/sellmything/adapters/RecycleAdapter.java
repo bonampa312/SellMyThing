@@ -16,8 +16,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import co.com.romero.sellmything.sellmything.R;
-import co.com.romero.sellmything.sellmything.activities.MainActivity;
 import co.com.romero.sellmything.sellmything.activities.SellMyThing;
+import co.com.romero.sellmything.sellmything.utilities.persistence.manager.AddressManager;
 import co.com.romero.sellmything.sellmything.utilities.pojos.mercadolibre.ItemResults;
 
 /**
@@ -57,6 +57,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ItemHold
         private ImageView mItemImage;
         private TextView mItemTitle;
         private TextView mItemPrice;
+        private TextView mItemLocation;
         private String urlItem;
 
         public ItemHolder(View v) {
@@ -65,6 +66,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ItemHold
             mItemImage = (ImageView) v.findViewById(R.id.item_image);
             mItemTitle = (TextView) v.findViewById(R.id.item_title);
             mItemPrice = (TextView) v.findViewById(R.id.item_price);
+            mItemLocation = (TextView) v.findViewById(R.id.item_site);
             v.setOnClickListener(this);
         }
 
@@ -78,7 +80,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ItemHold
         public void bindItem(ItemResults item) {
             Picasso.with(mItemImage.getContext()).load(item.getThumbnail()).into(mItemImage);
             mItemTitle.setText(item.getTitle());
+            mItemTitle.setSelected(true);
             mItemPrice.setText(item.getPrice());
+            String address = AddressManager.getAddressLocal(item.getAddress().getId()).getCityName();
+            mItemLocation.setText(address);
             urlItem = item.getPermalink();
         }
     }

@@ -9,6 +9,9 @@ import java.util.List;
  */
 
 public class Results {
+
+    @SerializedName("id")
+    private String id;
     @SerializedName("results")
     private List<ItemResults> resultsList;
     @SerializedName("query")
